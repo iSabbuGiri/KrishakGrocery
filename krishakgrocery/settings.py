@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0@zk*d02v3_477j42ldjyqg^3z#p)lt!l*908d!=1f6fe8$u#4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+    'social_django',
+    'crispy_forms',
 ]
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +56,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'krishakgrocery.urls'
 
+# Authentication Backends
+AUTHENTICATION_BACKENDS = [
+                    'django.contrib.auth.backends.ModelBackend',
+                    'social_core.backends.facebook.FacebookOAuth2',
+                    'social_core.backends.google.GoogleOAuth2',
+                    'social_core.backends.google.GoogleOAuth',
+                    ]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -63,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends', # add this
+                'social_django.context_processors.login_redirect', # add this
             ],
         },
     },
@@ -106,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
@@ -125,10 +139,43 @@ MEDIA_ROOT = BASE_DIR/ 'media'
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
+  'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '125310263019595'
+SOCIAL_AUTH_FACEBOOK_SECRET = '3a090b3026d12ba0b7d651454259ed06'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '759922094212-4ba6eh06v38j2jdrp0i6uipctdal6egq.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'rE578CrogyGaxw46CNQTr4E7'
+
+
+SESSION_COOKIE_SAMESITE = None
+
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = "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"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+

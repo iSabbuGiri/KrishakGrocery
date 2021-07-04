@@ -5,12 +5,14 @@ from .models import (
     Customer,
     Product,
     Cart,
-    OrderPlaced
+    OrderPlaced, 
+    Ratings,Recommendation
 )
-
+admin.site.register(Ratings)
+admin.site.register(Recommendation)
 @admin.register(Customer)
 class CustomerModelAdmin(admin.ModelAdmin):
-    list_display = ['id','user','name', 'email', 'location','mobile_number']
+    list_display = ['id','user','name', 'email', 'mobile_number','location']
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
@@ -23,7 +25,7 @@ class CartModelAdmin(admin.ModelAdmin):
 
 @admin.register(OrderPlaced)
 class OrderPlacedModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'customer','customer_info', 'product', 'product_info', 'quantity', 'ordered_date', 'status']
+    list_display = ['id', 'user', 'customer','customer_info', 'product', 'product_info', 'quantity', 'ordered_date', 'status', 'payment_method']
 
    
     def customer_info(self, obj):

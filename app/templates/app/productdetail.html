@@ -2,65 +2,106 @@
 {% load static %}
 {% block title %}Product Detail{% endblock title %}
 {% block main-content %}
+
 <div class="container my-5">
  <div class="row">
   <div class="col-sm-6 text-center align-self-center">
    <img src="{{ product.product_image.url }}" alt="" class="img-fluid img-thumbnail">
   </div>
   <div class="col-sm-5 offset-sm-1">
-   <h2>Product Title: {{product.title}}</h2>
-   <hr>
+   <h4> Title: {{product.title}}</h4>
+   
    <br/>
    
-   
-   <span class="heading">Rating:</span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
+  
+    <div class="rating-wrapper">
+        <input type="radio" name="rating" id="star-1" onclick=rateFunction("{{product}}",1) ><label for="star-1"></label>
+        <input type="radio" name="rating" id="star-2" onclick=rateFunction("{{product}}",2)><label for="star-2"></label>
+        <input type="radio" name="rating" id="star-3" onclick=rateFunction("{{product}}",3)><label for="star-3"></label>
+        <input type="radio" name="rating" id="star-4" onclick=rateFunction("{{product}}",4)><label for="star-4"></label>
+        <input type="radio" name="rating" id="star-5" onclick=rateFunction("{{product}}",5)><label for="star-5"></label>
+    </div>
+   <style>
 
-    <style>
-        .checked {
-  color: orange;
+       
+
+        .rating-wrapper input{
+            display: none;
+        }
+        .rating-wrapper label {
+            display: inline-block;
+            width: 30px;
+            position: relative;
+            cursor: pointer;
 }
+
+
+
+.rating-wrapper label:before{
+    content: "\2729";
+    position: absolute;
+    font-size: 30px;
+    display: inline-block;
+    top: 0;
+    left: 0;
+
+}
+
+.rating-wrapper label:after{
+    content: "\2729";
+    position: absolute;
+    font-size: 30px;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    color: yellow;
+    opacity: 0;
+
+}
+
+
+.rating-wrapper label:hover::after,
+.rating-wrapper label:hover ~ label:after,
+.rating-wrapper input:checked ~ label:after{
+    opacity: 1;
+}
+
+    
+
+
 
     </style>
     <br/>
     <br/>
+    
     <span class="heading">Brand:<b> Krishak Grocery</b></span>
     <br/>
     <br/>
  
- 
-   <h4> {{product.selling_price}} </h4> <br>
-   
+   <h4> Rs.{{product.selling_price}} </h4> <br>
+
+    {% if request.user.is_authenticated %}
+        {% if item_already_in_cart %}
+        <a href="{% url 'showcart' %}" class="btn btn-warning shadow px-5 py-2 ms-4">Go To Cart</a>
+            {% else %}
+
+                <form action="/add-to-cart" class="d-inline">
+                        <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
+                        <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
+                    </form>
+            {% endif %} 
+    {% endif %}       
+    
+    {% if not request.user.is_authenticated %}
                     
-   {% if request.user.is_authenticated %}
-   {% if item_already_in_cart %}
-   <a href="{% url 'showcart' %}" class="btn btn-warning shadow px-5 py-2 ms-4">Go To Cart</a>
-       {% else %}
+        <form action="/add-to-cart" class="d-inline">
+            <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
+            <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
+        </form>
+    {% endif %}
 
-           <form action="/add-to-cart" class="d-inline">
-                   <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
-                   <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
-               </form>
-       {% endif %} 
-{% endif %}       
 
-{% if not request.user.is_authenticated %}
-               
-   <form action="/add-to-cart" class="d-inline">
-       <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
-       <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
-   </form>
-{% endif %}
-
-   
-
-   <a href="{% url 'showcart' %}" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</a>
  
-  
   </div>
  </div>
 </div>

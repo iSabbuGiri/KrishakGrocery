@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %} Search {% endblock %}
+
+{% block main-content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-13">
+            <h3>Search results for <span class="text-info">"{{request.GET.keyword}}"</span></h3>
+            {% for result in results %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="item"><img src="{{result.product_image.url}}" alt="" height="200px"><span class="fw-bold">{{result.title}}</span><br><span class="fs-5">{{result.selling_price}}</span>
+                    
+                </div>     
+                    <div class="col-md-8">
+                        <h4><a href="{% url 'product-detail' result.id %}">{{result.title}}</a></h4>
+                        <a href="{% url 'product-detail' result.id  %}" class="btn btn-primary shadow px-5 py-2 ms-4">Add To Cart</a>
+                        
+                    </div>
+            </div>
+            {% endfor %}  
+                
+            
+        </div>
+    </div>
+</div>
+
+{% endblock main-content %}

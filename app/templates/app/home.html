@@ -30,11 +30,13 @@
 
 {% block main-content %}
 
+
+{% if recommended %}
 <div class="mx-3">
-  <h2>Fresh Seasonal Vegetables</h2>
+  <h2>Recommended Products</h2>
   <div class="owl-carousel" id="slider1">
-       {% for v in vegetables %}
-           <a href="{% url 'product-detail' v.id %}" class="btn"><div class="item"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold">{{v.title}}</span><br><span class="fs-5">{{v.selling_price}}</span>
+       {% for v in recommended %}
+           <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs. {{v.selling_price}}</span>
          
  
              <div class="box-element product">
@@ -46,11 +48,31 @@
     
   
  </div>
+{% endif %}
+
+ <!-- 1st Product Slider --> 
+<div class="mx-3">
+  <h2>Fresh Seasonal Vegetables</h2>
+  <div class="owl-carousel" id="slider1">
+       {% for v in vegetables %}
+           <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs. {{v.selling_price}}</span>
+           
+ 
+             <div class="box-element product">
+               <button class="btn btn-outline-secondary add-btn">ADD TO CART</button>
+             </div>
+           </div>
+          </a>
+       {% endfor %}
+     </div>
+    
+  
+ </div>
  
  <!-- End 1st Product Slider -->
  
  
-<!-- End 1st Product Slider -->
+
 
 
 <!-- 2nd Product Slider -->
@@ -59,9 +81,9 @@
   <!-- Slider 2 -->
   <div class="owl-carousel" id="slider2">
    {% for f in fruits %}
-   <a href="{% url 'product-detail' f.id  %}" class="btn"><div class="item"><img src="{{f.product_image.url}}" alt="" height="200px"><span class="fw-bold">{{f.title}}</span><br><span class="fs-5">{{f.selling_price}}</span>
+   <a href="{% url 'product-detail' f.id  %}" class="btn hoverzoom"><div class="item"><img src="{{f.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{f.title}}</span><br><span class="fs-5">Rs. {{f.selling_price}}</span>
      <div class="box-element product">
-       <button class="btn btn-outline-secondary add-btn">ADD TO CART</button>
+       <button class="btn btn-outline-secondary add-btn">ADD TO CART </button>
      </div>
    </div></a>
    {% endfor %}
@@ -78,7 +100,7 @@
   <!-- Slider 3 -->
   <div class="owl-carousel" id="slider3">
    {% for lh in leafyherbs %}
-   <a href="{% url 'product-detail' lh.id %}" class="btn"><div class="item"><img src="{{lh.product_image.url}}" alt="" height="200px"><span class="fw-bold">{{lh.title}}</span><br><span class="fs-5">{{lh.selling_price}}</span>
+   <a href="{% url 'product-detail' lh.id %}" class="btn hoverzoom"><div class="item"><img src="{{lh.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{lh.title}}</span><br><span class="fs-5">Rs. {{lh.selling_price}}</span>
     <div class="box-element product">
       <button class="btn btn-outline-secondary add-btn">ADD TO CART</button>
     </div>
@@ -88,6 +110,12 @@
   </div>
  </div>
  <!-- End 3rd Product Slider -->
+
+ 
+ </div>
+ <!-- End 3rd Product Slider -->
+ 
+
  
 
 

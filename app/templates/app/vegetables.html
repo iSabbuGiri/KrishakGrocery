@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Vegetables{% endblock title %}
+
+
+{% block main-content %}
+<!-- 1st Product Slider -->
+<div class="row">
+    <div class="column">
+        <img src="{% static 'app/images/product/21.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
+    </div>
+    <div class="column">
+        <img src="{% static 'app/images/product/22.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
+    </div>
+    <div class="column">
+        <img src="{% static 'app/images/product/23.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
+    </div>
+  </div>
+{% endblock main-content %}

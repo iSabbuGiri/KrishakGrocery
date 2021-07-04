@@ -1,34 +1,38 @@
 .owl-carousel .item{
- /* border: 1px solid black; */
- font-size: 24px;
- text-align: center;
- margin-top: 20px;;
+    /* border: 1px solid black; */
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;;
 }
-
+   
+   .textwrap{
+       white-space:nowrap;
+       overflow:hidden !important;
+       text-overflow:ellipsis;
+   }
+   .hoverzoom{
+       transition:.1s;
+   }
+.hoverzoom:hover{
+transform:scale(1.2) 
+} 
 .owl-next{
- float:right;
+    float:right;
 }
+
 .owl-prev{
- float:left;
+    float:left;
 }
+   
 .owl-prev span{
- font-size: 24px;
- font-weight: bold;
+    font-size: 24px;
+    font-weight: bold;
 }
+
 .owl-next span{
- font-size: 24px;
- font-weight: bold;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 
-.owl-carousel img{
-    display: block;
-    width: 100%;
-    height: auto;
-    cursor: s;
-    transform: scale(1);
-    transition: 0.3s ease-in-out;
-}
-.owl-carousel:hover img{
-    transform: scale(1.5);
-}
+   

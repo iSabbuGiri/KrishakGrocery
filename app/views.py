@@ -1,5 +1,13 @@
+import json
+from typing import Reversible
+from django.conf.urls import url
+from django.contrib.auth.forms import PasswordResetForm
+from django.db.models.query_utils import refs_expression
 from django.shortcuts import render, redirect
-from .models import Customer, Product, Cart, OrderPlaced
+from django.utils import html
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+from .models import Customer, Product, Cart, OrderPlaced, Ratings,Recommendation
 from django.views import View
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
@@ -7,11 +15,26 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+import json
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.urls import reverse
+from .cosineSim import Similarity
 
+cat={"V":"Vegitables","F":"Fruits","LH":"Leafy and Herbs","SD":"Sale of the Day"}
 
 class ProductView(View):
     def get(self, request):
         totalitem = 0
+        recommended=[]
+        if request.user.is_authenticated:
+            userInterests=Recommendation.objects.get(user=request.user)
+            products=Product.objects.all()
+            for product in products:
+               cosine=Similarity(userInterests.interests,product.title+" "+cat[product.category])
+               if cosine>0.30:
+                   recommended.append(product)
         vegetables = Product.objects.filter(category='V')
         fruits = Product.objects.filter(category='F')
         leafyherbs= Product.objects.filter(category='LH')
@@ -19,7 +42,9 @@ class ProductView(View):
         if request.user.is_authenticated:
             totalitem = len(Cart.objects.filter(user=request.user))
            
-        return render(request, 'app/home.html',{'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs,'saleofday':saleofday, 'totalitem':totalitem})
+        if len(recommended)<=0:recommended=False
+
+        return render(request, 'app/home.html',{'recommended':recommended,'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs,'saleofday':saleofday, 'totalitem':totalitem})
 
 
 class ProductDetailView(View):
@@ -31,6 +56,26 @@ class ProductDetailView(View):
             item_already_in_cart = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
             totalitem = len(Cart.objects.filter(user=request.user))    
         return render(request, 'app/productdetail.html', {'product':product, 'item_already_in_cart': item_already_in_cart, 'totalitem':totalitem}) 
+
+class SearchView(TemplateView):
+    template_name = 'app/search.html'
+
+    def get_context_data(self, **kwargs):
+        context=  super().get_context_data(**kwargs)
+        kw = self.request.GET.get("keyword")
+        #print(kw, "...................")
+        results = Product.objects.filter(title__icontains=kw)
+        #print(results)
+        context["results"] = results
+
+        return context
+        
+
+
+
+
+def vegetables(request):
+    return render(request, 'app/vegetables.html')       
 
 @login_required
 def add_to_cart(request):
@@ -64,31 +109,29 @@ def show_cart(request):
             return render(request, 'app/emptycart.html')    
 
 
-
 def plus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
-        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))     
-        c.quantity += 1
-        c.save()    
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity+=1
+        c.save()
         amount = 0.0
         shipping_amount = 30.0
-        total_amount = 0
-        cart_product = [p for p in Cart.objects.all() if p.user == request.user]
-        #print(cart_product)
-
-
+        cart_product = [p for p in Cart.objects.all() if p.user== request.user]
         for p in cart_product:
             tempamount = (p.quantity * p.product.selling_price)
             amount += tempamount
            
 
+
         data = {
-            'quantity': c.quantity,
-            'amount': amount,
+            'quantity' : c.quantity,
+            'amount' : amount,
             'totalamount' : amount + shipping_amount
-        }   
+        }    
+
         return JsonResponse(data)
+
 
 def minus_cart(request):
     if request.method == 'GET':
@@ -97,7 +140,7 @@ def minus_cart(request):
         c.quantity-=1
         c.save()
         amount = 0.0
-        shipping_amount = 50.0
+        shipping_amount = 30.0
         cart_product = [p for p in Cart.objects.all() if p.user== request.user]
 
 
@@ -159,8 +202,8 @@ def orders(request):
 
 
 
-def mobile(request):
- return render(request, 'app/mobile.html')
+def rewardpoints(request):
+ return render(request, 'app/reward.html')
 
 
 
@@ -176,8 +219,8 @@ class CustomerRegistrationView(View):
             form.save()
         return render(request, 'app/customerregistration.html', {'form':form})        
 
-def checkout(request):
- return render(request, 'app/checkout.html')
+
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -231,12 +274,39 @@ def orders(request):
 
 @login_required
 def payment_done(request):
+    
     user = request.user
     custid = request.GET.get('custid')
     customer = Customer.objects.get(id=custid)
     cart = Cart.objects.filter(user=user)
     for c in cart:
-        OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity).save()
+        OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity).save() 
+       
+        try:
+            recom=Recommendation.objects.get(user=user)
+            recom.interests=recom.interests+" "+cat[c.product.category]+" "+c.product.title
+            recom.save()
+        except:
+            recomm=Recommendation.objects.create(user=user,interests=cat[c.product.category]+" "+c.product.title)
+            recomm.save()
         c.delete()
     return redirect('orders')    
 
+@login_required
+def addrating(request):
+    if request.method=="POST":
+         user=request.user
+         rating =request.POST.get("rating")
+         productId =request.POST.get("product")
+         try:
+            ratingModel=Ratings.objects.get(user=user)
+            ratingModel.product=productId
+            ratingModel.ratings=rating
+            ratingModel.save()
+         except:
+            ratingModel=Ratings.objects.create(user=user,product=productId,ratings=rating)
+            ratingModel.save()
+         print(ratingModel)
+        #  ratingModel.save()
+         
+    return JsonResponse({"ratings": "success"})
