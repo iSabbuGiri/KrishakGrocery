@@ -1,7 +1,10 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import fields
 from django.db.models.deletion import CASCADE
+
 
 
 class Customer(models.Model):
@@ -9,11 +12,16 @@ class Customer(models.Model):
     name =  models.CharField(max_length=200)
     email = models.EmailField(max_length=50)
     mobile_number = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=200) 
+    longitude = models.FloatField()
+    latitute = models.FloatField()
+  
    
 
     def __str__(self) :
         return str(self.id)
+
+
 
 
 CATEGORY_CHOICES = (
@@ -84,3 +92,20 @@ class Ratings(models.Model):
 class Recommendation(models.Model):
     user=models.OneToOneField(User,primary_key=True,on_delete=CASCADE)
     interests=models.CharField(max_length=255)
+
+class Reward(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rewardpoints=models.IntegerField(null=False, default=0)
+
+    def __str__(self):
+        return self.user.username+"rewardpoints"
+
+class Contact(models.Model):
+    sno=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=255)
+    phone=models.CharField(max_length=13)
+    email = models.CharField(max_length=100)
+    content = models.TextField()
+
+    def __str__(self) :
+        return 'Message from ' + self.name

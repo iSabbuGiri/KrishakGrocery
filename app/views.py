@@ -3,11 +3,12 @@ from typing import Reversible
 from django.conf.urls import url
 from django.contrib.auth.forms import PasswordResetForm
 from django.db.models.query_utils import refs_expression
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import html
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from .models import Customer, Product, Cart, OrderPlaced, Ratings,Recommendation
+from .models import Customer, Product, Cart, OrderPlaced, Ratings,Recommendation, Reward, Contact
 from django.views import View
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
@@ -18,6 +19,7 @@ from django.utils.decorators import method_decorator
 import json
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template import loader
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .cosineSim import Similarity
@@ -27,6 +29,7 @@ cat={"V":"Vegitables","F":"Fruits","LH":"Leafy and Herbs","SD":"Sale of the Day"
 class ProductView(View):
     def get(self, request):
         totalitem = 0
+        rewardPoint=0
         recommended=[]
         if request.user.is_authenticated:
             userInterests=Recommendation.objects.get(user=request.user)
@@ -43,8 +46,14 @@ class ProductView(View):
             totalitem = len(Cart.objects.filter(user=request.user))
            
         if len(recommended)<=0:recommended=False
+        if request.user.is_authenticated:
+            try:
+                rewardObject=Reward.objects.get(user=request.user)
+                rewardPoint+=rewardObject.rewardpoints
+            except:
+                rewardPoint=0
 
-        return render(request, 'app/home.html',{'recommended':recommended,'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs,'saleofday':saleofday, 'totalitem':totalitem})
+        return render(request, 'app/home.html',{'rewardpoints':rewardPoint,'recommended':recommended,'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs,'saleofday':saleofday, 'totalitem':totalitem})
 
 
 class ProductDetailView(View):
@@ -75,7 +84,31 @@ class SearchView(TemplateView):
 
 
 def vegetables(request):
-    return render(request, 'app/vegetables.html')       
+    vegetables= Product.objects.filter(category='V')
+
+    return render(request, 'app/vegetables.html',{'vegetables':vegetables})       
+
+def fruits(request):
+    fruits= Product.objects.filter(category='F')
+
+    return render(request, 'app/fruits.html',{'fruits':fruits})      
+
+def about(request):
+   return render(request, 'app/about.html')     
+
+def contact(request):
+    if request.method=='POST':
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        phone=request.POST.get('phone')
+        content=request.POST.get('content')
+        #print(name, email, phone, content)
+        contact= Contact(name=name, email=email, phone=phone, content=content)
+        contact.save()
+    return render(request, 'app/contact.html')    
+
+    
+
 
 @login_required
 def add_to_cart(request):
@@ -186,8 +219,6 @@ def remove_cart(request):
 
         
 
-def buy_now(request):
- return render(request, 'app/buynow.html')
 
 
 def address(request):
@@ -199,12 +230,6 @@ def address(request):
 
 def orders(request):
  return render(request, 'app/orders.html')
-
-
-
-def rewardpoints(request):
- return render(request, 'app/reward.html')
-
 
 
 class CustomerRegistrationView(View):
@@ -238,7 +263,9 @@ class ProfileView(View):
             email = form.cleaned_data['email']   
             location = form.cleaned_data['location'] 
             mobile_number = form.cleaned_data['mobile_number']
-            reg = Customer(user = usr, name=name,email=email, location=location, mobile_number=mobile_number)
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+            reg = Customer(user = usr, name=name,email=email, location=location, mobile_number=mobile_number,latitude=latitude,longitude=longitude)
             reg.save()
             messages.success(request, 'Profile have been saved successfully')
         return render(request, 'app/profile.html', {'form':form, 'active':'btn-primary'})       
@@ -274,14 +301,27 @@ def orders(request):
 
 @login_required
 def payment_done(request):
-    
+    rp=0
     user = request.user
     custid = request.GET.get('custid')
     customer = Customer.objects.get(id=custid)
     cart = Cart.objects.filter(user=user)
     for c in cart:
-        OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity).save() 
-       
+        order=OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity)
+        order.save()
+
+        if order.total_cost<=100:
+            rp=rp+1
+        elif order.total_cost>100:
+            rp=rp+2
+        try:
+            rewardPoint=Reward.objects.get(user=user)
+            rPoint=rewardPoint.rewardpoints
+            rewardPoint.rewardpoints=rPoint+rp
+            rewardPoint.save()
+        except:
+            rewardPoint=Reward.objects.create(user=user,rewardpoints=rp)
+            rewardPoint.save()
         try:
             recom=Recommendation.objects.get(user=user)
             recom.interests=recom.interests+" "+cat[c.product.category]+" "+c.product.title
@@ -291,6 +331,7 @@ def payment_done(request):
             recomm.save()
         c.delete()
     return redirect('orders')    
+
 
 @login_required
 def addrating(request):
@@ -310,3 +351,8 @@ def addrating(request):
         #  ratingModel.save()
          
     return JsonResponse({"ratings": "success"})
+
+
+def maps(request):
+		template = loader.get_template('app/maps.html')
+		return HttpResponse(template.render({}, request))

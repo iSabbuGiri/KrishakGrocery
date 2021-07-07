@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block main-content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <section>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.6992973873885!2d85.3317152145374!3d27.66477373396966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19de00bafc23%3A0x82030b73c6374211!2sKIST%20Medical%20College!5e0!3m2!1sen!2snp!4v1625504450060!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </section>
+        </div>
+        <div class="col-md-6">
+            <br> <br>
+            <div class="customer"><h2>Customer Service</h2></div>
+            <div class="list" id="list">
+                <ul>
+                  <li> <i class="fas fa-phone"></i>&nbsp;+977 9801233569</li>
+                  <li> <i class="fas fa-phone"></i>&nbsp;+977 9841768357</li>
+                  <li><i class="fas fa-clock"></i>&nbsp;Delivery time:8 AM - 5 PM</li>
+                  <li><i class="fas fa-envelope"></i>&nbsp;krishakgrocery@gmail.com</li>
+                  <li><i class="fas fa-map-marker-alt"></i>&nbsp;Kathmandu,Nepal</li>
+                </ul>
+               </div>
+        </div>
+    </div>
+    <div class="row" id="form">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="exampleInputName" aria-describedby="NameHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPhoneNumber" class="form-label">Phone Number</label>
+          <input type="text" class="form-control" id="exampleInputPhoneNumber" maxlength="10">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputMessage" class="form-label">Message</label>
+          
+          <textarea class="form-control" name="content" id="content" cols="30" rows="6"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-re">Submit</button>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+{% endblock main-content %}

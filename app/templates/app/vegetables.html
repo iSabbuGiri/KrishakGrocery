@@ -1,19 +1,25 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Vegetables{% endblock title %}
+
 
 
 {% block main-content %}
-<!-- 1st Product Slider -->
-<div class="row">
-    <div class="column">
-        <img src="{% static 'app/images/product/21.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
-    </div>
-    <div class="column">
-        <img src="{% static 'app/images/product/22.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
-    </div>
-    <div class="column">
-        <img src="{% static 'app/images/product/23.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
-    </div>
-  </div>
+
+<div class="mx-3">
+    <h2>Fresh Seasonal Vegetables</h2>
+    <div class="owl-carousel" id="slider1">
+         {% for v in vegetables %}
+             <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs. {{v.selling_price}}</span>
+             
+   
+               <div class="box-element product">
+                 <button class="btn btn-outline-secondary add-btn">ADD TO CART</button>
+               </div>
+             </div>
+            </a>
+         {% endfor %}
+       </div>
+      
+    
+   </div>
 {% endblock main-content %}

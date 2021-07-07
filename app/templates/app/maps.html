@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+
+{% block main-content %}
+<h2>Google Map Integration</h2>
+<style>
+    #map {
+      width: 100%;
+      height: 400px;
+      background-color: grey;
+    }
+  </style>
+<div class="card mx-auto" style="width: 50rem;">
+    
+    <div class="card-body">
+        <div id="map"></div>
+    </div>
+  </div>
+  
+  <script type="text/javascript" src = "{% static 'app/js/maps.js' %}"></script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf9p8PZgw7VGaT1l5NRCj8aJDQqFCIzPI&callback=initMap">
+  </script>
+{% endblock main-content %}

@@ -38,28 +38,19 @@
             Address: {{forloop.counter}} </label>
         </div>
         {% endfor %}
-
-        <input type="submit" class="btn btn-primary mt-4" value="Cash on Delivery"><br>
-      </div>
-    </form>
-  
-     
-     
-  
-  </div>
-</div>
-</div>
-<!---  <div class="text-end">
-          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold" for="custadd{{forloop.counter}}">Continue</button>
+        <div class="text-end">
+          <button type="submit" class="btn btn-warning mt-3" px-5 fw-bold>Cash on Delivery</button>
+          <br/>
+          <br/>
           <div id="paypal-button-container"></div>
         </div>
       </form>
     </div>
   </div>
-</div>
-{% endblock main-content %}
-{% block payment-gateway %} 
-<script src="https://www.paypal.com/sdk/js?client-id=ATgULOQcOBFhV31YaqqzI_xme79SrmE3NNb-elx3xnuxCfLr8wXh0ke8vAPVlhYjfZ0a4VLZq46ug653"></script>
+  </div>
+  {% endblock main-content %}
+  {% block payment-gateway %}
+  <script src="https://www.paypal.com/sdk/js?client-id=AQ8vFqY5eZv1IoIZ1ROR72bed98MwrELV6kTYhDXjHFG2j5owdhyadcUmhAfiZZjNTWjMKA1HGpDjZSI&currency=USD"></script>
 
     <script>
         // Render the PayPal button into #paypal-button-container
@@ -88,9 +79,5 @@
 
         }).render('#paypal-button-container');
     </script>
-
-
-
-
-
-{% endblock payment-gateway %}-->
+  
+  {% endblock payment-gateway %}

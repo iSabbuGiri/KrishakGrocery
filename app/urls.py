@@ -11,19 +11,23 @@ urlpatterns = [
     path('search/', views.SearchView.as_view(), name='search'),
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
     path('cart/', views.show_cart, name='showcart'),
-    path('buy/', views.buy_now, name='buy-now'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+
+   
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
-    path('reward/', views.rewardpoints, name='reward'),
     path('paymentdone/', views.payment_done, name='paymentdone'),
+    path("maps/", views.maps),
+    
     
     path('pluscart/', views.plus_cart),
     path('minuscart/', views.minus_cart),
     path('removecart/', views.remove_cart),
     
     path('vegetables/', views.vegetables, name='vegetables'),
-    path('fruits/', views.vegetables, name='fruits'),
+    path('fruits/', views.fruits, name='fruits'),
 
     path('product-detail/addratings/', views.addrating, name='rating'),
     

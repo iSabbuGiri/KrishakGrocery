@@ -1,38 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Open+Sans+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@300&display=swap');
 .owl-carousel .item{
     /* border: 1px solid black; */
     font-size: 24px;
     text-align: center;
-    margin-top: 20px;;
-}
-   
-   .textwrap{
-       white-space:nowrap;
-       overflow:hidden !important;
-       text-overflow:ellipsis;
+    margin-top: 20px;
    }
-   .hoverzoom{
-       transition:.1s;
+   .navbar-bg{
+       background-color:#0a472e !important;
    }
-.hoverzoom:hover{
-transform:scale(1.2) 
-} 
-.owl-next{
+   .owl-next{
     float:right;
-}
-
-.owl-prev{
+   }
+   .owl-prev{
     float:left;
-}
-   
-.owl-prev span{
+   }
+   .owl-prev span{
     font-size: 24px;
     font-weight: bold;
-}
-
-.owl-next span{
+   }
+   .owl-next span{
     font-size: 24px;
     font-weight: bold;
+   }
+   
+   *{
+       box-sizing: border-box;
+       margin: 0px;
+       padding: 0px;
+   }
+   
+   .container{
+       width: 100%;
+       margin:	auto;
+       padding-right: 13px;
+       padding-left: 13px;
+   }
+   .ab{
+       padding-left: 50px;
+   }
+   /*.Header{
+   width: 100%;
+   position:fixed;
+   top: 0;
+   }
+   body{
+       padding-top: 60px;
+       padding-bottom: 40px;
+   }*/
+   .navbar-brand , .dropdown .btn-secondary
+   {
+       border-radius: 30px;
+       padding: 5px;
+       background-color:#80891B;
+       color: #fff;
+       border-color:none;
+       box-shadow: none;
+   }
+   .dropdown:hover .dropdown-menu
+    {
+        display: block;
+       
+    }
+    .d .dropdown-menu{
+        min-width:12.5rem;
+    }
+    .dropdown-menu .dropdown-item:hover ,a:hover,
+    .navbar-nav .nav-item .nav-link:hover,.d-flex .navbar-nav .nav-item .nav-link:hover
+    {
+        color:#80891B;
+    }
+    a {
+        color: black;
+        text-decoration: none;
+    }
+    
+   .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show > .nav-link
+ {
+   padding-right: 50px;
+   padding-left:20px;
+   color:#80891B;
+   }
+   .navbar-nav .nav-item .nav-link
+   {
+       color:#fff;
+       padding-right: 50px;
+   }
+   .navbar-brand
+   {
+    margin-right: auto;
+    font-size: 1.15rem;
+   }
+  
+
+#test, #test1, #test2{
+    color:#80891B;
+    font-family:Open Sans Condensed ;
+        
 }
 
 
-   
+#test:hover, #test1:hover{
+        box-shadow: 0px 0px 10px #000;
+        transition: 0.5s;
+
+}
+span.fw-bold {
+    font-size: 25px;
+    
+    
+}
+h2{
+    color:#80891B;
+    font-family: Dancing Script;
+    text-align:center;
+    font-size: 50px;
+    margin-top:30px;
+    margin-bottom: 30px;
+}
+.ftco-section{
+    background-color: #ffc720;
+    color:  #0a472e !important;
+}
+.list ul li{
+list-style: none;
+}
+.list ul li a{
+    color:  #0a472e !important;
+}
+.menu ,.info {
+    padding-left: 35px;
+    padding-bottom: 20px;
+    font-family: Dancing Script;
+    font-size: 30px;
+}
+.groc{
+    padding-left: 35px;
+    padding-bottom: 20px;
+    font-family: Dancing Script;
+    font-size: 20px;
+}
+.pay{
+    padding-bottom: 20px;
+    font-family: Dancing Script;
+    font-size: 30px;
+}
+.copyright{
+    background-color: rgb(189, 169, 142);
+}
+.bg3{
+    background: url(../images/banner/bg_3.jpg);
+	height:100vh;
+	background-size: cover;
+}
+.bg3 p{
+    color: #80891B;
+    font-size: 20px;
+}
+#list{
+    padding-left: 100px;
+}
+.customer{
+    padding-right: 200px;
+}
+#list ul li{
+    color: #80891B;
+}
+#test2 p{
+    font-size: 18px;
+}
+#form .form-control{
+width: 40%;
+}
+#form{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color:#0a472e !important ;
+}
+.btn-re{
+    background-color:#0a472e !important ;
+
+}

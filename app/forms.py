@@ -1,7 +1,7 @@
 from django import forms
 #from django.contrib.auth import password_validation
 from django.contrib.auth import models
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordChangeForm ,PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordChangeForm 
 from django.contrib.auth.models import User
 from django.forms import fields, widgets
 from django.utils.translation import gettext, gettext_lazy as _
@@ -38,5 +38,9 @@ class CustomerProfileForm(forms.ModelForm):
         fields = ['name', 'email',  'mobile_number', 'location']
         widgets = {'name':forms.TextInput(attrs={'class':'form-control'}),
           'email':forms.TextInput(attrs={'class':'form-control'}),
+         'mobile_number':forms.TextInput(attrs={'class':'form-control'}),
+         'location':forms.TextInput(attrs={'class':'form-control'}),
+         'latitude':forms.TextInput(attrs={'class':'form-control'}),
+         'longitude':forms.TextInput(attrs={'class':'form-control'})}
          
-         'mobile_number':forms.TextInput(attrs={'class':'form-control'}),'location':forms.TextInput(attrs={'class':'form-control'})}
+

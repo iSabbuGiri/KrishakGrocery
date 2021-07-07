@@ -6,10 +6,12 @@ from .models import (
     Product,
     Cart,
     OrderPlaced, 
-    Ratings,Recommendation
+    Ratings,Recommendation,Reward, Contact
 )
 admin.site.register(Ratings)
 admin.site.register(Recommendation)
+admin.site.register(Reward)
+admin.site.register(Contact)
 @admin.register(Customer)
 class CustomerModelAdmin(admin.ModelAdmin):
     list_display = ['id','user','name', 'email', 'mobile_number','location']
