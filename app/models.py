@@ -40,6 +40,7 @@ class Product(models.Model):
 
     def __str__(self) :
         return str(self.id)
+        
     def save(self, *args, **kwargs):
         sendEmailNotification({
             "title":self.title,"sp":self.selling_price

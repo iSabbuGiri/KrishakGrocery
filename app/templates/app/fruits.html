@@ -4,19 +4,26 @@
 
 
 {% block main-content %}
-
-
-<div class="m-3 text-center">
-  <h2>Seasonal and Exotic Fruits</h2>
-  <!-- Slider 1 -->
-  <div class="owl-carousel" id="slider1">
-    {% for f in fruits %}
-   <a href="{% url 'product-detail' f.id %}" class="btn hoverzoom"><div class="item" id="test"><img src="{{f.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{f.title}}</span><br><span class="fs-5">Rs.{{f.selling_price}}</span></div></a>
+<div class="container pt-5 pb-5">
+<div class="mx-3">
+   {% for f in fruits %}
+   <a href="{% url 'product-detail' f.id  %}" class="btn hoverzoom">
+     <div class="item" id="fruit">
+       <img src="{{f.product_image.url}}" alt="" height="150px">
+       <br>
+       <br>
+       <span class="fw-bold textwrap">{{f.title}}</span>
+       <br>
+       <span class="fs-5">Rs. {{f.selling_price}}</span>
+     <div class="box-element product pb-4">
+       <button class="btn btn-light add-btn">ADD TO CART </button>
+     </div>
+   </div>
+  </a>
    {% endfor %}
   
-  </div>
- </div>
- 
+</div>
+</div>
 
  
 

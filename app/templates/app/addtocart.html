@@ -4,7 +4,7 @@
 {% block main-content %}
 <div class="container my-5">
  <div class="row">
-  <h1 class="text-center mb-5">Shopping Cart</h1>
+  <h2 class="text-center mb-5">Shopping Cart</h2>
   <div class="col-sm-8">
   <div class="card">
    <div class="card-body">
@@ -26,7 +26,7 @@
         <p id="increaseerror" class="errordisplay"></p>
        </div> 
        <div class="d-flex justify-content-between">
-        <a href="#" pid="{{cart.product.id}}" class="btn btn-sm btn-secondary mr-3 remove-cart" >Remove item </a>
+        <a href="#" pid="{{cart.product.id}}" class="btn btn-sm btn-light mr-3 remove-cart" >Remove item </a>
         <p class="mb-0"><span><strong>RS. {{cart.product.selling_price}}</strong></span></p>
        </div>
       </div>
@@ -53,7 +53,7 @@
          <span><strong>Rs. <strong id="totalamoutn" >{{totalamount}}</strong></strong></span>
        </li>
       </ul>
-      <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+      <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-light">Place Order</a></div>
     </div>
    </div>
   </div>

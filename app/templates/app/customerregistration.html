@@ -4,8 +4,8 @@
 {% block main-content %}
 <div class="container">
  <div class="row my-3">
-  <div class="col-sm-6 offset-sm-3">
-   <h3>SIGN UP</h3>
+  <div class="col-sm-6 offset-sm-3 pb-5">
+   <h2>SIGN UP</h2>
    <hr>
 
    <form action="" method="post" novalidate class="shadow p-5">
@@ -20,9 +20,10 @@
          {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
       </div>
       {% endfor %}
-   <input type="submit" value="SIGN IN" class="btn btn-primary">
+   <input type="submit" value="SIGN IN" class="btn btn-light">
    <br>
-   <div class="text-center text-primary fw-bold"><small>Existing User?<a href="{% url 'login' %}" class="text-danger">Login</a></small>
+   <br>
+   <div class="text-center text-success fw-bold"><small>Existing User?&nbsp; &nbsp;<a href="{% url 'login' %}" class="text-danger">Login</a></small>
    </div>   
    {% if form.non_field_errors %}
       {% for error in form.non_field_errors %}

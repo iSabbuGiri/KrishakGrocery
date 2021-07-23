@@ -13,17 +13,23 @@
    
    <br/>
    
-  <!-- ya function pass gareko xa, tesma xa product ra rating value, ya bata tyo agi ko fucntion call hunxa-->
-    <div class="rating-wrapper"> 
-        <input type="radio" name="rating" id="star-1" onclick=rateFunction("{{product}}",1) ><label for="star-1"></label>
-        <input type="radio" name="rating" id="star-2" onclick=rateFunction("{{product}}",2)><label for="star-2"></label>
-        <input type="radio" name="rating" id="star-3" onclick=rateFunction("{{product}}",3)><label for="star-3"></label>
-        <input type="radio" name="rating" id="star-4" onclick=rateFunction("{{product}}",4)><label for="star-4"></label>
-        <input type="radio" name="rating" id="star-5" onclick=rateFunction("{{product}}",5)><label for="star-5"></label>
+  
+    <div class="rating-wrapper">
+        <input type="radio" name="rating" id="star-1" onclick=rateFunction"{{product}}",1> <label for="star-1"></label>
+        <input type="radio" name="rating" id="star-2" onclick=rateFunction"{{product}}",2><label for="star-2"></label>
+        <input type="radio" name="rating" id="star-3" onclick=rateFunction"{{product}}",3><label for="star-3"></label>
+        <input type="radio" name="rating" id="star-4" onclick=rateFunction"{{product}}",4><label for="star-4"></label>
+        <input type="radio" name="rating" id="star-5" onclick=rateFunction"{{product}}",5><label for="star-5"></label>
     </div>
    <style>
-
-       
+       .img-thumbnail{
+           width: 60%;
+       }
+       h4{
+           color: #80891B;
+           font-family: Dancing Script;
+           font-size: 35px;
+       }
 
         .rating-wrapper input{
             display: none;
@@ -65,9 +71,15 @@
 .rating-wrapper input:checked ~ label:after{
     opacity: 1;
 }
-
-    
-
+.d-inline .btn-light {
+    background-color: #80891B;
+    border-radius: 30px;
+    color: #fff;
+}
+.heading{
+    color: #80891B;
+    font-size: 18px;
+}
 
 
     </style>
@@ -87,7 +99,7 @@
 
                 <form action="/add-to-cart" class="d-inline">
                         <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
-                        <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
+                        <button type="submit" class="btn btn-light px-5 py-2">Add To Cart</button>
                     </form>
             {% endif %} 
     {% endif %}       
@@ -96,7 +108,7 @@
                     
         <form action="/add-to-cart" class="d-inline">
             <input type="hidden" name="prod_id" value={{product.id}}  id="prod_id">
-            <button type="submit" class="btn btn-primary shadow px-5 py-2">Add To Cart</button>
+            <button type="submit" class="btn btn-light shadow px-5 py-2">Add To Cart</button>
         </form>
     {% endif %}
 

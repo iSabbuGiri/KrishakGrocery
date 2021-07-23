@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Leafy and Herbs{% endblock title %}
+
+
+{% block main-content %}
+
+<div class="container pt-5 pb-5">
+    <div class="mx-3">
+{% for lh in leafyherbs %}
+   <a href="{% url 'product-detail' lh.id %}" class="btn hoverzoom">
+     <div class="item" id="leafy">
+       <img src="{{lh.product_image.url}}" alt="" height="200px">
+       <br>
+       <br>
+       <span class="fw-bold textwrap">{{lh.title}}</span>
+       <br>
+       <span class="fs-5">Rs. {{lh.selling_price}}</span>
+    <div class="box-element product pb-4">
+      <button class="btn btn-light add-btn">ADD TO CART</button>
+    </div>
+  </div>
+</a>
+  
+   {% endfor %}
+</div>
+</div>
+
+
+
+{% endblock main-content %}

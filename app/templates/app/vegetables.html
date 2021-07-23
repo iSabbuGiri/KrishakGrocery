@@ -4,16 +4,40 @@
 
 
 {% block main-content %}
-
-<div class="m-3 text-center">
-  <h2>Fresh Seasonal Vegetables</h2>
-  <!-- Slider 1 -->
-  <div class="owl-carousel" id="slider1">
-    {% for v in vegetables %}
-   <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item" id="test"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs.{{v.selling_price}}</span></div></a>
-   {% endfor %}
-  
+<div class="container pt-5 pb-5">
+<div class="mx-3">
+         {% for v in vegetables %}
+             <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom">
+               <div class="item" id="vegs">
+                 <img src="{{v.product_image.url}}" alt="" height="200px">
+                 <br>
+                 <br>
+                 <span class="fw-bold textwrap">{{v.title}}</span>
+                 <br>
+                 <span class="fs-5">Rs. {{v.selling_price}}</span>
+                  <div class="box-element product pb-4">
+                    <button class="btn btn-light add-btn">ADD TO CART</button>
+                  </div>
+                </div>
+              </a>
+         {% endfor %}
+         {% for lh in leafyherbs %}
+   <a href="{% url 'product-detail' lh.id %}" class="btn hoverzoom">
+     <div class="item" id="leafs">
+       <img src="{{lh.product_image.url}}" alt="" height="200px">
+       <br>
+       <br>
+       <span class="fw-bold textwrap">{{lh.title}}</span>
+       <br>
+       <span class="fs-5">Rs. {{lh.selling_price}}</span>
+    <div class="box-element product pb-4">
+      <button class="btn btn-light add-btn">ADD TO CART</button>
+    </div>
   </div>
- </div>
- 
+</a>
+  
+   {% endfor %}
+       
+</div>   
+</div>
 {% endblock main-content %}

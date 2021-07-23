@@ -101,7 +101,8 @@ def fruits(request):
 def leafyherbs(request):
     leafyherbs= Product.objects.filter(category='LH')
 
-    return render(request, 'app/leafy and herbs.html',{'leafyherbs':leafyherbs})   
+    return render(request, 'app/leafyherbs.html',{'leafyherbs':leafyherbs}) 
+         
 
 def about(request):
    return render(request, 'app/about.html')     
