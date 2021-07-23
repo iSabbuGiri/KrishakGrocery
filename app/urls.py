@@ -28,6 +28,8 @@ urlpatterns = [
     
     path('vegetables/', views.vegetables, name='vegetables'),
     path('fruits/', views.fruits, name='fruits'),
+    path('leafyherbs/', views.leafyherbs, name='leafyherbs'),
+
 
     path('product-detail/addratings/', views.addrating, name='rating'),
     

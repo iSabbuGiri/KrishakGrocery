@@ -2,10 +2,10 @@
 {% load static %}
 {% block title %}Checkout{% endblock title %}
 {% block main-content %}
-<div class="container">
+<div class="container order">
  <div class="row mt-5">
   <div class="col-sm-6">
-    <h4>Order Summary</h4>
+    <h3>Order Summary</h3>
     <hr>
 
     {% for item in cart_items %}
@@ -21,7 +21,7 @@
   
   </div>
 <div class="col-sm-4 offset-sm-1">
-    <h4>Checkout Form</h4>
+    <h3>Checkout Form</h3>
     <hr>
    <form action="/paymentdone" id="myform">
       {% for ad in add %}
@@ -39,7 +39,7 @@
         </div>
         {% endfor %}
         <div class="text-end">
-          <button type="submit" class="btn btn-warning mt-3" px-5 fw-bold>Cash on Delivery</button>
+          <button type="submit" class="btn btn-light mt-3" px-5 fw-bold>Cash on Delivery</button>
           <br/>
           <br/>
           <div id="paypal-button-container"></div>

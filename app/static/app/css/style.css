@@ -5,6 +5,17 @@
     text-align: center;
     margin-top: 20px;
    }
+    .textwrap{
+    white-space:nowrap;
+    overflow:hidden !important;
+    text-overflow:ellipsis;
+}
+.hoverzoom{
+    transition:.1s;
+}
+.hoverzoom:hover{
+transform:scale(1.1);
+}
    .navbar-bg{
        background-color:#0a472e !important;
    }
@@ -65,7 +76,7 @@
         min-width:12.5rem;
     }
     .dropdown-menu .dropdown-item:hover ,a:hover,
-    .navbar-nav .nav-item .nav-link:hover,.d-flex .navbar-nav .nav-item .nav-link:hover
+    .navbar-nav .nav-item .nav-link:hover,.d-flex .navbar-nav .nav-item .nav-link:hover ,h5
     {
         color:#80891B;
     }
@@ -93,24 +104,22 @@
   
 
 #test, #test1, #test2{
-    color:#80891B;
+    color:#80891B !important;
     font-family:Open Sans Condensed ;
         
 }
 
 
-#test:hover, #test1:hover{
-        box-shadow: 0px 0px 10px #000;
-        transition: 0.5s;
-
-}
 span.fw-bold {
     font-size: 25px;
     
+}
+span.fs-5 {
+    font-size: 25px !important;
     
 }
 h2{
-    color:#80891B;
+    color:#0a472e;
     font-family: Dancing Script;
     text-align:center;
     font-size: 50px;
@@ -139,7 +148,8 @@ list-style: none;
     font-family: Dancing Script;
     font-size: 20px;
 }
-.pay{
+.pay ,.paypal{
+    padding-left: 35px;
     padding-bottom: 20px;
     font-family: Dancing Script;
     font-size: 30px;
@@ -179,4 +189,76 @@ width: 40%;
 .btn-re{
     background-color:#0a472e !important ;
 
+}
+#sli1 , #sli2 , #sli3{
+    color:#80891B !important;
+    font-family:Open Sans Condensed ;
+}
+.btn .btn-light {
+    background-color: #80891B;
+    border-radius: 30px;
+    color: #fff;
+}
+#fruit ,#vegs ,#leafy ,#search{
+padding: 35px;
+color:#80891B !important;
+font-family:Open Sans Condensed ;
+}
+
+.shadow .btn-light,.save .btn-light ,.shop .btn-light ,.text-end .btn-light{
+    background-color: #ffc720;
+    color: #fff;
+}
+.d-grid .btn-light ,.d-flex .btn-light{
+    background-color: #80891B;
+    color: #fff;
+}
+.cart h3 {
+    color:#0a472e;
+    font-family: Dancing Script;
+    text-align:center;
+    margin-top:30px;
+    margin-bottom: 30px;
+    font-size: 25px;
+}
+.form a {
+    font-size: 20px;
+    color: #0a472e;}
+
+.card h3 ,.order h3{
+    color:#0a472e;
+    font-size: 25px;
+    font-family: Roboto;
+    font-weight: bold;
+}
+.caros img{
+    height: 580px;
+    width: 100%;
+    
+}
+.abc{
+    padding-top: 20px;
+        
+    }
+label{
+        padding-right: 10px;
+
+    }
+.abc input{
+       
+    background-color: #ffc720;
+        color:#fff;
+        padding: 5px;
+        border: none;
+       }
+.pass a{
+           color: black !important;
+       }
+h4{
+    color:#0a472e;
+    font-family: Dancing Script;
+    text-align:center;
+    margin-top:30px;
+    margin-bottom: 30px;
+    font-size: 20px; 
 }

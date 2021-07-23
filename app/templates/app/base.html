@@ -22,12 +22,44 @@
     <title>KrishakGrocery : Groceries for the changing world </title>
     <link rel="shortcut icon" type="image/png" href="{% static '/app/images/banner/logo2.ico' %}" >
   </head>
+  <style>
+    @media(max-width: 480px)
+		{
+		.ab{
+      padding-left: 8px;
+      padding-top: 10px;
+    }
+    .navbar-nav .nav-item .nav-link{
+      padding-left: 20px;
+    }
+    #res{
+      padding-left: 10px;
+      padding-top: 1px;
+    }
+    #res1{
+      padding-left: 10px;
+    }
+    h2{
+      font-size: 35px;
+    }
+     #sli2{
+      padding-left: 10px;
+      
+    }
+    #sli3{
+      padding-left: 25px;
+    }
+    .caros img ,#test2 img{
+      height: auto;
+    }
+		}
+  </style>
   <body>
     <div class="Header pt-2 pb-2">
       <div class="container mt-3">
         <div class="row">
           <div class="col-md-3">
-            <a href="/"><img src="{% static 'app/images/banner/logo.png' %}" height="60px" width="150px"></a>
+            <a href="{% url 'home' %}"><img src="{% static 'app/images/banner/krishak logo.png'%} " height="60px" width="200px"></a>
           </div>
           <div class="col-md-4 ">
             <form action="{% url 'search' %}" method="GET" class="d-flex">
@@ -54,7 +86,8 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
           <li><button class="dropdown-item" type="button"><a href="{% url 'fruits' %}"><i class="fas fa-apple-alt"></i>&nbsp;Fruits</a></button></li>
-          <li><button class="dropdown-item" type="button"><a href="{% url 'vegetables' %}"><i class="fas fa-pepper-hot"></i>&nbsp;Vegetables</a></button></li>       
+          <li><button class="dropdown-item" type="button"><a href="{% url 'vegetables' %}"><i class="fas fa-pepper-hot"></i>&nbsp;Vegetables</a></button></li>     
+          <li><button class="dropdown-item" type="button"><a href="{% url 'leafyherbs' %}"><i class="fas fa-leaf"></i>&nbsp;Leafy and herbs</a></button></li>  
         </ul>
       </div>
       
@@ -98,10 +131,10 @@
            </li>
            {% else %}
             <li class="nav-item mx-2">
-             <a href="{% url 'login' %}" class="nav-link text-white"><i class="fas fa-sign-in-alt"></i> Login</a>
+             <a href="{% url 'login' %}" class="nav-link text-white" id="res"><i class="fas fa-sign-in-alt"></i> Login</a>
             </li>
             <li class="nav-item mx-2">
-             <a href="{% url 'registration' %}" class="nav-link text-white"><i class="fas fa-user"></i>  Register</a>
+             <a href="{% url 'registration' %}" class="nav-link text-white" id="res1"><i class="fas fa-user"></i>  Register</a>
             </li>
            
              {% endif %}
@@ -121,7 +154,7 @@
       <div class="container foot">
         <div class="row">
           <div class="col-md-3 groc">
-            <img src="{% static 'app/images/banner/logo.png''%} " height="60px" width="150px">
+            <img src="{% static 'app/images/banner/krishak logo.png'%} " height="60px" width="200px">
             <p>Groceries for the changing world</p>
             <i class="fab fa-facebook"></i>&nbsp; &nbsp;
             <i class="fab fa-google"></i>
@@ -153,7 +186,7 @@
           </div>
           <div class="col-md-3">
             <div class="pay">Payment</div>
-            <div class="esewa">
+            <div class="paypal">
               <img src="{% static 'app/images/banner/paypal.png'%} " height="60px" width="100px">
             </div>
           </div>

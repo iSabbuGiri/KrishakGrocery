@@ -32,12 +32,15 @@ class ProductView(View):
         rewardPoint=0
         recommended=[]
         if request.user.is_authenticated:
-            userInterests=Recommendation.objects.get(user=request.user)
-            products=Product.objects.all()
-            for product in products:
-               cosine=Similarity(userInterests.interests,product.title+" "+cat[product.category])
-               if cosine>0.30:
-                   recommended.append(product)
+            try:
+                userInterests=Recommendation.objects.get(user=request.user)
+                products=Product.objects.all()
+                for product in products:
+                    cosine=Similarity(userInterests.interests,product.title+" "+cat[product.category])
+                    if cosine>0.30:   
+                        recommended.append(product)
+            except:
+                recommended=""      
         vegetables = Product.objects.filter(category='V')
         fruits = Product.objects.filter(category='F')
         leafyherbs= Product.objects.filter(category='LH')
@@ -91,7 +94,13 @@ def vegetables(request):
 def fruits(request):
     fruits= Product.objects.filter(category='F')
 
-    return render(request, 'app/fruits.html',{'fruits':fruits})      
+    return render(request, 'app/fruits.html',{'fruits':fruits})
+
+def leafyherbs(request):
+    leafyherbs= Product.objects.filter(category='LH')
+
+    return render(request, 'app/leafyherbs.html',{'leafyherbs':leafyherbs}) 
+         
 
 def about(request):
    return render(request, 'app/about.html')     

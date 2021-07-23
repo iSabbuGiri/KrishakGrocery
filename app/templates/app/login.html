@@ -5,8 +5,8 @@
 {% block main-content %}
 <div class="container">
  <div class="row my-3">
-  <div class="col-sm-6 offset-sm-3">
-   <h3>SIGN IN</h3>
+  <div class="col-sm-6 offset-sm-3 pb-5">
+   <h2>SIGN IN</h2>
    <hr>
    <form action="" method="post" novalidate class="shadow p-5">
     {% csrf_token %}
@@ -15,14 +15,16 @@
         {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
     </div>
     {% endfor %}
-    <small><a href="{% url 'reset_password' %}">Lost your Password?</a></small><br>
-    <input type="submit" class="btn btn-primary mt-4" value="Login"><br>
-
+    <div class="pass">
+    <small><a href="{% url 'reset_password' %}">Forget your Password?</a></small><br>
+    <input type="submit" class="btn btn-light mt-4" value="Login"><br>
+</div>
     <!--Facebook Login-->
-    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary mt-4" >Login with Facebook</a>
-    <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-primary mt-4" >Login with Google</a>
-   
-    <div class="text-center text-primary fw-bold"><small>New to KrishakGrocery?<a href="{% url 'registration' %}" class="text-danger">Create an Account</a></small></div>
+    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-light mt-4" >Login with Facebook &nbsp;<i class="fab fa-facebook-f"></i></a>
+    <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-light mt-4" >Login with Google &nbsp;<i class="fab fa-google"></i></a>
+   <br>
+   <br>
+    <div class="text-center text-success fw-bold"><small>New to KrishakGrocery? &nbsp;&nbsp;<a href="{% url 'registration' %}" class="text-danger">Create an Account</a></small></div>
 
     {% if form.non_field_errors %}
         {% for error in form.non_field_errors %}
