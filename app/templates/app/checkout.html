@@ -17,7 +17,7 @@
         </div>
       </div>
       {% endfor %}
-      <p class="fw-bold">Total Cost + Rs. 30 = {{totalamount}}</p>
+      <p class="fw-bold">Total Cost + Rs. 50 = {{totalamount}}</p>
   
   </div>
 <div class="col-sm-4 offset-sm-1">
@@ -28,21 +28,22 @@
       <div class="card">
         <div class="card-body">
         <h5>{{ad.name}}</h5>
-        <p>{{ad.location}}<p>
+        <p>{{ad.address}}<p> 
         <p>{{ad.mobile_number}}</p>
         </div>
       </div>
         <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+          <input class="form-check-input" type="radio" onclick="setPayment()" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+          
           <label class="form-check-label fw-bold" for="">
             Address: {{forloop.counter}} </label>
-        </div>
+            <input name="paymentName" id="paymentmethod" style="display:none"/>
         {% endfor %}
         <div class="text-end">
           <button type="submit" class="btn btn-warning mt-3" px-5 fw-bold>Cash on Delivery</button>
           <br/>
           <br/>
-          <div id="paypal-button-container"></div>
+          <div id="paypal-button-container"></div> 
         </div>
       </form>
     </div>
@@ -72,12 +73,17 @@
                 return actions.order.capture().then(function(details) {
                     // Show a success message to the buyer
                     alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    document.getElementById("paymentmethod").value="Paypal"
                     document.getElementById("myform").submit();
                 });
             }
 
 
         }).render('#paypal-button-container');
+
+        function setPayment(){
+document.getElementById("paymentmethod").value="Cash on Delivery"
+        }
     </script>
   
   {% endblock payment-gateway %}

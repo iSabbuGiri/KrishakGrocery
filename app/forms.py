@@ -35,12 +35,10 @@ class MyPasswordChangeForm(PasswordChangeForm):
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['name', 'email',  'mobile_number', 'location']
+        fields = ['name', 'email',  'mobile_number', 'address']
         widgets = {'name':forms.TextInput(attrs={'class':'form-control'}),
           'email':forms.TextInput(attrs={'class':'form-control'}),
          'mobile_number':forms.TextInput(attrs={'class':'form-control'}),
-         'location':forms.TextInput(attrs={'class':'form-control'}),
-         'latitude':forms.TextInput(attrs={'class':'form-control'}),
-         'longitude':forms.TextInput(attrs={'class':'form-control'})}
+         'address':forms.TextInput(attrs={'class':'form-control'})}
          
 

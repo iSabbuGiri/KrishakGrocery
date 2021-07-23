@@ -5,21 +5,15 @@
 
 {% block main-content %}
 
-<div class="mx-3">
-    <h2>Fresh Seasonal Vegetables</h2>
-    <div class="owl-carousel" id="slider1">
-         {% for v in vegetables %}
-             <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs. {{v.selling_price}}</span>
-             
-   
-               <div class="box-element product">
-                 <button class="btn btn-outline-secondary add-btn">ADD TO CART</button>
-               </div>
-             </div>
-            </a>
-         {% endfor %}
-       </div>
-      
-    
-   </div>
+<div class="m-3 text-center">
+  <h2>Fresh Seasonal Vegetables</h2>
+  <!-- Slider 1 -->
+  <div class="owl-carousel" id="slider1">
+    {% for v in vegetables %}
+   <a href="{% url 'product-detail' v.id %}" class="btn hoverzoom"><div class="item" id="test"><img src="{{v.product_image.url}}" alt="" height="200px"><span class="fw-bold textwrap">{{v.title}}</span><br><span class="fs-5">Rs.{{v.selling_price}}</span></div></a>
+   {% endfor %}
+  
+  </div>
+ </div>
+ 
 {% endblock main-content %}

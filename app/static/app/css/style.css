@@ -5,6 +5,21 @@
     text-align: center;
     margin-top: 20px;
    }
+   .textwrap{
+    white-space:nowrap;
+    overflow:hidden !important;
+    text-overflow:ellipsis;
+}
+.hoverzoom{
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+.hoverzoom:hover img{
+    -webkit-transform: scale(1.3);
+    transform:scale(1.3) 
+} 
    .navbar-bg{
        background-color:#0a472e !important;
    }
@@ -90,7 +105,11 @@
     margin-right: auto;
     font-size: 1.15rem;
    }
-  
+
+
+.errordisplay{
+    color:red;
+}
 
 #test, #test1, #test2{
     color:#80891B;

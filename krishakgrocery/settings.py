@@ -169,11 +169,13 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = "smtp.sendgrid.net"
+#SMTP Configuration
+
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = "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"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "krishakgrocery123@gmail.com" 
+EMAIL_HOST_PASSWORD = "krishak@123"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 

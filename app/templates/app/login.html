@@ -10,7 +10,13 @@
    <hr>
    <form action="" method="post" novalidate class="shadow p-5">
     {% csrf_token %}
+    {% if messages %}
+    {% for message in messages %}
+       <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+    {% endfor %}
+ {% endif %}
     {% for fm in form %}
+    
     <div class="form-group">
         {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
     </div>
@@ -20,6 +26,7 @@
 
     <!--Facebook Login-->
     <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary mt-4" >Login with Facebook</a>
+    <!--Google  Login-->
     <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-primary mt-4" >Login with Google</a>
    
     <div class="text-center text-primary fw-bold"><small>New to KrishakGrocery?<a href="{% url 'registration' %}" class="text-danger">Create an Account</a></small></div>

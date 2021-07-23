@@ -14,7 +14,7 @@ admin.site.register(Reward)
 admin.site.register(Contact)
 @admin.register(Customer)
 class CustomerModelAdmin(admin.ModelAdmin):
-    list_display = ['id','user','name', 'email', 'mobile_number','location']
+    list_display = ['id','user','name', 'email', 'mobile_number', 'address']
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):

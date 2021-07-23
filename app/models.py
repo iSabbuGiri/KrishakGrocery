@@ -1,4 +1,5 @@
 
+from app.emailNotification import sendEmailNotification
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -12,9 +13,8 @@ class Customer(models.Model):
     name =  models.CharField(max_length=200)
     email = models.EmailField(max_length=50)
     mobile_number = models.CharField(max_length=200)
-    location = models.CharField(max_length=200) 
-    longitude = models.FloatField()
-    latitute = models.FloatField()
+    address=models.CharField(max_length=225,default="ktm")
+    
   
    
 
@@ -28,7 +28,7 @@ CATEGORY_CHOICES = (
     ('V','Vegetables'),
     ('F', 'Fruits'),
     ('LH', 'Leafy and Herbs'),
-    ('SD', 'Sale of the day'),
+   
 
 )
 
@@ -40,6 +40,12 @@ class Product(models.Model):
 
     def __str__(self) :
         return str(self.id)
+    def save(self, *args, **kwargs):
+        sendEmailNotification({
+            "title":self.title,"sp":self.selling_price
+        })
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+        
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

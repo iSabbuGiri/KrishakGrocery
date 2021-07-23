@@ -24,27 +24,29 @@ $('#slider1, #slider2, #slider3').owlCarousel({
 
 $('.plus-cart').click(function(){
     var id = $(this).attr("pid").toString();
-    $.ajax({
-        type: "GET",
-        url: "/pluscart",
-        data:{
-            prod_id:id
-        },
-        success : function(data){
-            // console.log(data)
-            // eml.innerText = data.quantity
-            document.getElementById("quantity").innerText=data.quantity
-            document.getElementById("amount").innerText = data.amount
-            document.getElementById("totalamount").innerText = data.totalamount
-        }
-    })
+    var quantity= $("#quantity").text() // its text, so need to coonver to number to compare with 10
+    console.log("the number is ",quantity)
+  Number(quantity)<10? $.ajax({
+    type: "GET",
+    url: "/pluscart",
+    data:{
+        prod_id:id
+    },
+    success : function(data){
+        // console.log(data)
+        // eml.innerText = data.quantity
+        document.getElementById("quantity").innerText=data.quantity
+        document.getElementById("amount").innerText = data.amount
+        document.getElementById("totalamount").innerText = data.totalamount
+    }
+}):( document.getElementById("increaseerror").innerText="Item Cannot be more than 10")
 })
 
 
 
 $('.minus-cart').click(function(){
     var id = $(this).attr("pid").toString();
-    var eml = this.parentNode.children[2]
+    //var eml = this.parentNode.children[2]
     $.ajax({
         type : "GET",
         url : "/minuscart",

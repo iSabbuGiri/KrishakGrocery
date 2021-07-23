@@ -1,3 +1,4 @@
+from app.webscrape import getProductUpdates
 import json
 from typing import Reversible
 from django.conf.urls import url
@@ -23,25 +24,29 @@ from django.template import loader
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .cosineSim import Similarity
-
+import geopy
+from geopy.geocoders import Nominatim
 cat={"V":"Vegitables","F":"Fruits","LH":"Leafy and Herbs","SD":"Sale of the Day"}
 
 class ProductView(View):
     def get(self, request):
         totalitem = 0
         rewardPoint=0
-        recommended=[]
+        recommended=[]  
         if request.user.is_authenticated:
-            userInterests=Recommendation.objects.get(user=request.user)
-            products=Product.objects.all()
-            for product in products:
-               cosine=Similarity(userInterests.interests,product.title+" "+cat[product.category])
-               if cosine>0.30:
-                   recommended.append(product)
+            try:
+                userInterests=Recommendation.objects.get(user=request.user)
+                products=Product.objects.all()
+                for product in products:
+                    cosine=Similarity(userInterests.interests,product.title+" "+cat[product.category])
+                    if cosine>0.30:  
+                        recommended.append(product)
+            except:
+                recommended=""
         vegetables = Product.objects.filter(category='V')
         fruits = Product.objects.filter(category='F')
         leafyherbs= Product.objects.filter(category='LH')
-        saleofday = Product.objects.filter(category='SD')
+       
         if request.user.is_authenticated:
             totalitem = len(Cart.objects.filter(user=request.user))
            
@@ -53,7 +58,7 @@ class ProductView(View):
             except:
                 rewardPoint=0
 
-        return render(request, 'app/home.html',{'rewardpoints':rewardPoint,'recommended':recommended,'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs,'saleofday':saleofday, 'totalitem':totalitem})
+        return render(request, 'app/home.html',{'rewardpoints':rewardPoint,'recommended':recommended,'vegetables':vegetables, 'fruits':fruits, 'leafyherbs':leafyherbs, 'totalitem':totalitem})
 
 
 class ProductDetailView(View):
@@ -91,7 +96,12 @@ def vegetables(request):
 def fruits(request):
     fruits= Product.objects.filter(category='F')
 
-    return render(request, 'app/fruits.html',{'fruits':fruits})      
+    return render(request, 'app/fruits.html',{'fruits':fruits})     
+
+def leafyherbs(request):
+    leafyherbs= Product.objects.filter(category='LH')
+
+    return render(request, 'app/leafy and herbs.html',{'leafyherbs':leafyherbs})   
 
 def about(request):
    return render(request, 'app/about.html')     
@@ -127,7 +137,7 @@ def show_cart(request):
         user = request.user
         cart = Cart.objects.filter(user=user)
         amount = 0.0
-        shipping_amount = 30.0
+        shipping_amount = 50.0
         total_amount = 0
         cart_product = [p for p in Cart.objects.all() if p.user == user]
         #print(cart_product)
@@ -149,7 +159,7 @@ def plus_cart(request):
         c.quantity+=1
         c.save()
         amount = 0.0
-        shipping_amount = 30.0
+        shipping_amount = 50.0
         cart_product = [p for p in Cart.objects.all() if p.user== request.user]
         for p in cart_product:
             tempamount = (p.quantity * p.product.selling_price)
@@ -173,7 +183,7 @@ def minus_cart(request):
         c.quantity-=1
         c.save()
         amount = 0.0
-        shipping_amount = 30.0
+        shipping_amount = 50.0
         cart_product = [p for p in Cart.objects.all() if p.user== request.user]
 
 
@@ -242,7 +252,7 @@ class CustomerRegistrationView(View):
         if form.is_valid():
             messages.success(request, 'Congratulations!! Registered Successfully.')
             form.save()
-        return render(request, 'app/customerregistration.html', {'form':form})        
+        return redirect('/accounts/login/')
 
 
 
@@ -256,6 +266,8 @@ class ProfileView(View):
 
     def post(self, request):
         form = CustomerProfileForm(request.POST)
+        lat=request.POST.get("latitude")
+        print(type(lat))
         if form.is_valid():
             usr = request.user
             name = form.cleaned_data['name']  
@@ -263,9 +275,13 @@ class ProfileView(View):
             email = form.cleaned_data['email']   
             location = form.cleaned_data['location'] 
             mobile_number = form.cleaned_data['mobile_number']
-            latitude = form.cleaned_data['latitude']
-            longitude = form.cleaned_data['longitude']
-            reg = Customer(user = usr, name=name,email=email, location=location, mobile_number=mobile_number,latitude=latitude,longitude=longitude)
+            latitude = float(request.POST.get("latitude"))
+            longitude =float( request.POST.get("longitude"))
+            cordinates=latitude,longitude
+            locator = Nominatim(user_agent="myGeocoder")
+            location=locator.reverse(cordinates)
+            response=location.raw 
+            reg = Customer(user = usr, name=name,email=email, mobile_number=mobile_number,address=response["display_name"])
             reg.save()
             messages.success(request, 'Profile have been saved successfully')
         return render(request, 'app/profile.html', {'form':form, 'active':'btn-primary'})       
@@ -304,10 +320,12 @@ def payment_done(request):
     rp=0
     user = request.user
     custid = request.GET.get('custid')
+    paymentMethod = request.GET.get('paymentName')
+    print(paymentMethod)
     customer = Customer.objects.get(id=custid)
     cart = Cart.objects.filter(user=user)
     for c in cart:
-        order=OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity)
+        order=OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity,payment_method=paymentMethod)
         order.save()
 
         if order.total_cost<=100:
@@ -356,3 +374,17 @@ def addrating(request):
 def maps(request):
 		template = loader.get_template('app/maps.html')
 		return HttpResponse(template.render({}, request))
+
+
+def updateProducts(request):
+    productUpdate=getProductUpdates() 
+    products=Product.objects.all()
+    for product in products:   
+        for k,v in productUpdate.items(): 
+            if any(x in k for x in product.title.split(" ")):
+                
+                pd=Product.objects.get(title=product.title) 
+                pd.selling_price=int(v.split(" ")[1])-0.05*int(v.split(" ")[1])
+                pd.save()
+
+    return redirect("/")

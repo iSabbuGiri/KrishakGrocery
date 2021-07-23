@@ -28,6 +28,8 @@ urlpatterns = [
     
     path('vegetables/', views.vegetables, name='vegetables'),
     path('fruits/', views.fruits, name='fruits'),
+    path('leafyherbs/', views.leafyherbs, name='leafyherbs'),
+
 
     path('product-detail/addratings/', views.addrating, name='rating'),
     
@@ -39,10 +41,13 @@ urlpatterns = [
    
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('checkout/', views.checkout, name='checkout'),
+    path('app/admin/products/update/updateProducts/',views.updateProducts,name="updateproducts"),
+
     
     #reset password urls 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="app/password_reset.html"), name="reset_password"),
-    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="app/password_reset_sent.html"), name='password_reset_done'),
+    path('reset_passsword_sent/', auth_views.PasswordResetDoneView.as_view(template_name="app/password_reset_sent.html"), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="app/password_reset_form.html"), name='password_reset_confirm'),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='app/password_reset_done.html'), name='password_reset_complete'),
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
