@@ -133,7 +133,14 @@ def add_to_cart(request):
 def show_cart(request):
     totalitem = 0
     if request.user.is_authenticated:
+        rp=0
         
+        try:
+            rewardPoint=Reward.objects.get(user=request.user) 
+            rp=rewardPoint.rewardpoints
+            print(rp, "is the rewards")
+        except:
+            rp=0
         totalitem = len(Cart.objects.filter(user=request.user))   
         user = request.user
         cart = Cart.objects.filter(user=user)
@@ -148,7 +155,12 @@ def show_cart(request):
                 tempamount = (p.quantity * p.product.selling_price)
                 amount += tempamount
                 totalamount = amount + shipping_amount
-            return render(request, 'app/addtocart.html', {'carts':cart, 'totalamount': totalamount, 'amount': amount, 'totalitem':totalitem})
+                if(rp>=500):   
+                    tAmount=totalamount-50  #keeping reward point discount as 50rs
+                   
+                else: 
+                    tAmount=totalamount
+            return render(request, 'app/addtocart.html', {'rewardpoints':rp,'carts':cart, 'totalamount': tAmount, 'amount': amount, 'totalitem':totalitem})
         else:
             return render(request, 'app/emptycart.html')    
 
@@ -274,7 +286,7 @@ class ProfileView(View):
             name = form.cleaned_data['name']  
             
             email = form.cleaned_data['email']   
-            location = form.cleaned_data['location'] 
+            location = form.cleaned_data['address'] 
             mobile_number = form.cleaned_data['mobile_number']
             latitude = float(request.POST.get("latitude"))
             longitude =float( request.POST.get("longitude"))
@@ -295,8 +307,14 @@ def checkout(request):
     add = Customer.objects.filter(user=user)
     cart_items = Cart.objects.filter(user=user)
     amount = 0.0
+    rp=0
     shipping_amount = 50.0
-    
+    tAmount=0
+    try: 
+        rewardpoint=Reward.objects.get(user=user)
+        rp=rewardpoint.rewardpoints
+    except:
+        rp=0
     cart_product = [p for p in Cart.objects.all() if p.user == request.user]
         #print(cart_product)
     if cart_product:
@@ -304,11 +322,17 @@ def checkout(request):
         for p in cart_product:
             tempamount = (p.quantity * p.product.selling_price)
             amount += tempamount
-        totalamount = amount + shipping_amount  
+        totalamount = amount + shipping_amount
+        if(rp>=500):
+            tAmount=totalamount-50 
+            
+        else:
+            tAmount=totalamount
+      
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))      
     
-    return render(request, 'app/checkout.html', {'totalamount': totalamount, 'cart_items': cart_items, 'add':add, 'totalitem':totalitem})
+    return render(request, 'app/checkout.html',{'rewardpoints':rp, 'totalamount': tAmount, 'cart_items': cart_items, 'add':add, 'totalitem':totalitem})
 
 @login_required
 def orders(request):
@@ -336,7 +360,10 @@ def payment_done(request):
         try:
             rewardPoint=Reward.objects.get(user=user)
             rPoint=rewardPoint.rewardpoints
-            rewardPoint.rewardpoints=rPoint+rp
+            if(rPoint>=500):
+                rewardPoint.rewardpoints=0
+            else:
+                rewardPoint.rewardpoints=rPoint+rp # this is previous code, if we place order we add +2 rp, that one got it?eheh ok
             rewardPoint.save()
         except:
             rewardPoint=Reward.objects.create(user=user,rewardpoints=rp)
@@ -358,6 +385,7 @@ def addrating(request):
          user=request.user
          rating =request.POST.get("rating")
          productId =request.POST.get("product")
+         print(rating,productId,"test")
          try:
             ratingModel=Ratings.objects.get(user=user)
             ratingModel.product=productId

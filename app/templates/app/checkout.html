@@ -17,7 +17,20 @@
         </div>
       </div>
       {% endfor %}
-      <p class="fw-bold">Total Cost + Rs. 50 = {{totalamount}}</p>
+      {% if rewardpoints >= 500%}
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Discount: Redeem Reward Point</h5>
+          
+          <p class="fw-bold">Amount: Rs 50</p>
+        </div>
+      </div>
+      {% endif %}
+      <p class="fw-bold">Total Cost + Rs. 50 
+        {% if rewardpoints >= 500 %}
+        - Rs. 50
+        {% endif %}
+        = {{totalamount}}</p>
   
   </div>
 <div class="col-sm-4 offset-sm-1">

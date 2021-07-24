@@ -9,7 +9,7 @@
    <ul class="list-unstyled">
     <li class="d-grid"><a href="{% url 'profile' %}" class="btn ">Profile</a></li>
     
-    <li class="d-grid"><a href="{% url 'address' %}" class="btn {{active}}">Address</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-light {{active}}">Address</a></li>
    </ul>
   </div>
   <div class="col-sm-9 offset-sm-1">
@@ -18,7 +18,7 @@
     <div class="col-sm-6">
      <div class="card">
       <div class="card-body">
-       <h3>Address {{forloop.counter}}</h3>
+       <h2>Address {{forloop.counter}}</h2>
        <p>Name: {{ad.name}}</p>
        <p>Email: {{ad.email}}</p>
        <p>Location: {{ad.location}}</p>
