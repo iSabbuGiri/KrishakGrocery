@@ -263,7 +263,7 @@ class CustomerRegistrationView(View):
     def post(self, request):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
-            messages.success(request, 'Congratulations!! Registered Successfully.')
+            messages.success(request, 'Congratulations, Registered Successfully!!')
             form.save()
         return redirect('/accounts/login/')
 
